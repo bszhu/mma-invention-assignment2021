@@ -30,3 +30,5 @@ If you encounter any packages missing make use of the "conda install ..." comman
 On Linux the OpenCV package might not be installed well directly. This can be resolved by activating the mma2020 environment, and then running the command "conda install -c conda-forge opencv=3.4.2"
 
 If following this installation guide didn't work for you please consider following the VM installation guide since using the VM will prove less troublesome.
+
+HI!

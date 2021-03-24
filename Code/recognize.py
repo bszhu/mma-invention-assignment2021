@@ -1,15 +1,10 @@
 #!/usr/bin/env python
 
-import argparse
 import pickle
 import cv2
 import matplotlib.pyplot as plt
-import numpy as np
-import feature_extraction as ft
-import sys
 import image_search
 import os.path
-import metadata_distance
 
 
 # Command line parsing is handled by the ArgumentParser object

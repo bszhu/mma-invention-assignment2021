@@ -26,13 +26,15 @@ def score(test_videos_path):
         gt_landmark = vid_name[0]
         gt_direction = vid_name[1]
         video_landmark, video_direction = geolocation_detection(video, 10)
+        # print "Ground truth:", gt_landmark, gt_direction
+        # print "System results:", video_landmark, video_direction
         if gt_landmark == video_landmark:
             landmark_score += 1
         if gt_direction == video_direction:
             direction_score += 1
 
-    print 'Landmark Score = ', landmark_score/num_videos
-    print 'Direction Score = ', direction_score/num_videos
+    print 'Landmark Score = ', landmark_score/float(num_videos)
+    print 'Direction Score = ', direction_score/float(num_videos)
     print "================="
 
 

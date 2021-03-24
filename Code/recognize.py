@@ -17,7 +17,6 @@ import metadata_distance
 # Starting point of the script
 # =======================================
 def recognize_monument(query_images):
-
     print 'Monument Recognition Tool'
     print '================================\n'
     search = image_search.Searcher('db/invention_sift_DB.db')
@@ -85,34 +84,32 @@ def recognize_monument(query_images):
     # If candidates exists, show the top N candidates
     N = 10
 
+    landmarks = list()
+    directions = list()
+
     for sift_candidates in sift_candidates_list:
         sift_winners = [search.get_filename(cand[1]) for cand in sift_candidates][0:N]
         sift_distances = [cand[0] for cand in sift_candidates][0:N]
-        print majority_vote(sift_winners)
+        # print majority_vote(sift_winners)
+        landmark, direction = majority_vote(sift_winners)
+        landmarks.append(landmark)
+        directions.append(direction)
         # plot_results(sift_winners, 'SIFT Results', sift_distances)
 
-    # Add Key event to close the application with the 'q' or 'escape' key
-    def onKey(event):
-        if event.key == 'q' or event.key == 'escape':
-            sys.exit(0)
+    # # Add Key event to close the application with the 'q' or 'escape' key
+    # def onKey(event):
+    #     if event.key == 'q' or event.key == 'escape':
+    #         sys.exit(0)
+    #
+    # plt.connect('key_release_event', onKey)
+    # plt.show()
+
+    return landmarks, directions
 
 
-    plt.connect('key_release_event', onKey)
-    plt.show()
-
-
-recognize_monument([cv2.imread('../Images/inventionimages/edt_SW_nk_z_w_toren2.jpg', cv2.IMREAD_COLOR),
-                    cv2.imread('../Images/inventionimages/ers_NE_rh_z_m_close.JPG', cv2.IMREAD_COLOR),
-                    cv2.imread('../Images/inventionimages/euk_S_oj_p_w_gracht_bij_oj.jpg', cv2.IMREAD_COLOR),
-                    cv2.imread('../Images/inventionimages/hoe_S_nk_z_m_kerk2.jpg', cv2.IMREAD_COLOR),
-                    cv2.imread('../Images/inventionimages/ing_SW_nk_m_church.jpg', cv2.IMREAD_COLOR)])
-
-
-
-
-
-
-
-
-
-
+if __name__ == '__main__':
+    recognize_monument([cv2.imread('../Images/inventionimages/edt_SW_nk_z_w_toren2.jpg', cv2.IMREAD_COLOR),
+                        cv2.imread('../Images/inventionimages/ers_NE_rh_z_m_close.JPG', cv2.IMREAD_COLOR),
+                        cv2.imread('../Images/inventionimages/euk_S_oj_p_w_gracht_bij_oj.jpg', cv2.IMREAD_COLOR),
+                        cv2.imread('../Images/inventionimages/hoe_S_nk_z_m_kerk2.jpg', cv2.IMREAD_COLOR),
+                        cv2.imread('../Images/inventionimages/ing_SW_nk_m_church.jpg', cv2.IMREAD_COLOR)])

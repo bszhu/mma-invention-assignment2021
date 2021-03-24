@@ -6,11 +6,6 @@ from recognize import recognize_monument
 from video_landmark_estimation import video_landmark_estimation
 from video_tools import get_frame_count
 
-parser = argparse.ArgumentParser(description="Geo-location Predication via Landmarks for Videos")
-parser.add_argument("input_video", help="Path to input video")
-parser.add_argument("-n", help="Amount of sample frames", default=10)
-args = parser.parse_args()
-
 
 class bcolors:
     HEADER = '\033[95m'
@@ -24,33 +19,43 @@ class bcolors:
     UNDERLINE = '\033[4m'
 
 
-cap = cv2.VideoCapture(args.input_video)
-if not cap.isOpened():
-    print bcolors.FAIL + 'please check your working directory and the path to your input video' + bcolors.ENDC
-else:  # if video capturing has been initialized correctly
-    print 'Input video:', bcolors.HEADER + args.input_video + bcolors.ENDC, '\n'
+def geolocation_detection(input_video, sample_amount):
+    cap = cv2.VideoCapture(input_video)
+    if not cap.isOpened():
+        print bcolors.FAIL + 'please check your working directory and the path to your input video' + bcolors.ENDC
+    else:  # if video capturing has been initialized correctly
+        print 'Input video:', bcolors.HEADER + input_video + bcolors.ENDC, '\n'
 
-    frame_count = get_frame_count(args.input_video) + 1
-    n_sample = int(args.n)  # the amount of sample frames taken from the input video
-    frames_indices = [frame_count / (n_sample + 1) * i for i in range(1, n_sample + 1)]  # uniform distribution
+        frame_count = get_frame_count(input_video) + 1
+        n_sample = int(sample_amount)  # the amount of sample frames taken from the input video
+        frames_indices = [frame_count / (n_sample + 1) * i for i in range(1, n_sample + 1)]  # uniform distribution
 
-    sample_frames = list()
-    for frame_id in frames_indices:
-        cap.set(cv2.CAP_PROP_POS_FRAMES, frame_id)
-        ret, frame = cap.read()
-        if ret:  # if frame is read correctly
-            sample_frames.append(frame)
-            # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            #
-            # # show the captured frames
-            # cv2.imshow('frame', gray)
-            # if cv2.waitKey(10) & 0xFF == ord('q'):
-            #     break
+        sample_frames = list()
+        for frame_id in frames_indices:
+            cap.set(cv2.CAP_PROP_POS_FRAMES, frame_id)
+            ret, frame = cap.read()
+            if ret:  # if frame is read correctly
+                sample_frames.append(frame)
+                # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                #
+                # # show the captured frames
+                # cv2.imshow('frame', gray)
+                # if cv2.waitKey(10) & 0xFF == ord('q'):
+                #     break
 
-    landmark_frames, direction_frames = recognize_monument(sample_frames)
-    video_landmark, video_direction = video_landmark_estimation(landmark_frames, direction_frames)
-    print 'Estimated landmark:', bcolors.UNDERLINE + bcolors.OKCYAN + video_landmark + bcolors.ENDC
-    print 'Direction in which the video was taken:', bcolors.UNDERLINE + bcolors.OKCYAN + video_direction + bcolors.ENDC
+        landmark_frames, direction_frames = recognize_monument(sample_frames)
+        video_landmark, video_direction = video_landmark_estimation(landmark_frames, direction_frames)
+        print 'Estimated landmark:', bcolors.UNDERLINE + bcolors.OKCYAN + video_landmark + bcolors.ENDC
+        print 'Direction in which the video was taken:', bcolors.UNDERLINE + bcolors.OKCYAN + video_direction + bcolors.ENDC
 
-cap.release()
-cv2.destroyAllWindows()
+    cap.release()
+    cv2.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Geo-location Predication via Landmarks for Videos")
+    parser.add_argument("input_video", help="Path to input video")
+    parser.add_argument("-n", help="Amount of sample frames", default=10)
+    args = parser.parse_args()
+
+    geolocation_detection(input_video=args.input_video, sample_amount=args.n)

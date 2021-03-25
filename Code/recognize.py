@@ -12,7 +12,16 @@ import numpy as np
 
 # Starting point of the script
 # =======================================
-def recognize_monument(query_images):
+def recognize_monument(query_images, N):
+    """
+    Given a list of images, this method will for every frame query the database containing the sift bag of words
+    and return a list of monuments and directions based on the top-N results for every query.
+    [Code from dbt.py has been used to make this file]
+
+    :param query_images: The frames for which we want to estimate the landmark and the direction
+    :param N: The amount of query results we want to take into account
+    :return: A list of landmarks and a list of directions
+    """
     print 'Monument Recognition Tool'
     print '================================\n'
     search = image_search.Searcher('db/invention_sift_DB.db')
@@ -79,15 +88,13 @@ def recognize_monument(query_images):
             
         monument_mv = np.array(monument_mv)
         direction_mv = np.array(direction_mv)
-        
+
         monument = np.unique(monument_mv)[-1]
         relevant_directions = direction_mv[monument_mv == monument]
         m_direction = np.unique(relevant_directions)[-1]
 
         return monument, m_direction
 
-    # If candidates exists, show the top N candidates
-    N = 10
 
     landmarks = list()
     directions = list()

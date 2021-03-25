@@ -59,7 +59,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Geo-location Predication via Landmarks for Videos")
     parser.add_argument("input_video", help="Path to input video")
     parser.add_argument("-n", help="Amount of sample frames", default=10)
-    parser.add_argument("-t", help="The to results of sift to take into account", default=1)
+    parser.add_argument("-t", help="The number of results of sift to take into account", default=1)
     args = parser.parse_args()
 
     geolocation_detection(input_video=args.input_video, sample_amount=args.n, top_n_sift=args.t, sift_vocabulary=None)

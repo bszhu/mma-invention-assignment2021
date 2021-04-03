@@ -19,7 +19,11 @@ Only Linux systems are supported currently.
 ### Adding database
 The database is of 8 GB. There are 2 options to obtain the database:
 1. Download the 3 [databse](https://drive.google.com/drive/folders/1CHzgEJB7xFXBMGcqcMWasXwVzTVA5Lul) files and move them into the directory `/Code/db/`.
-2. Download the set of [images](https://drive.google.com/drive/folders/1ljXDlhTVznFf0bzDC8DUygsH5fRA5F5A), place the folder of `inventionimages` in `/Images/` and run the command `python dbt.py -d invention_sift_DB sift ../Images/inventionimages/` in the directory `/Code/` to create the databse locally.
+2. Download the set of [images](https://drive.google.com/drive/folders/1ljXDlhTVznFf0bzDC8DUygsH5fRA5F5A), place the folder of `inventionimages` in `/Images/` and run the command 
+```
+python dbt.py -d invention_sift_DB sift ../Images/inventionimages/
+``` 
+in the directory `/Code/` to create the databse locally.
 
 ### Using the conda environment
 1. Open Terminal/Powershell or your preferred shell of choice.
